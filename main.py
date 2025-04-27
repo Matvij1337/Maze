@@ -53,6 +53,38 @@ class Enemy(GameSprite):
         if self.direction == "right":
             self.rect.x += self.speed
 
+class Wall(sprite.Sprite):
+    def __init__(self, x, y, width, heigth, color):
+        super().__init__()
+        self.heigth = heigth
+        self.width = width
+        self.image = Surface((self.width, self.heigth))
+        self.image.fill(color)
+        self.rect = self.image.get_rect()
+        self.color = color
+        self.rect.x = x
+        self.rect.y = y
+
+    def draw(self):
+        window.blit(self.image, (self.rect.x, self.rect.y))
+
+walls = []
+walls.append(Wall(30, 20, 650, 20, (144, 198, 124)))
+walls.append(Wall(670, 20, 20, 450, (144, 198, 124)))
+walls.append(Wall(30, 470, 660, 20, (144, 198, 124)))
+walls.append(Wall(30, 20, 20, 450, (144, 198, 124)))
+walls.append(Wall(130, 100, 20, 375, (144, 198, 124)))
+walls.append(Wall(150, 160, 340, 20, (144, 198, 124)))
+walls.append(Wall(240, 100, 150, 70, (144, 198, 124)))
+walls.append(Wall(490, 100, 20, 90, (144, 198, 124)))
+walls.append(Wall(490, 100, 100, 20, (144, 198, 124)))
+walls.append(Wall(580, 100, 20, 100, (144, 198, 124)))
+walls.append(Wall(510, 180, 70, 20, (185, 128, 164)))
+walls.append(Wall(220, 280, 450, 20, (144, 198, 124)))
+walls.append(Wall(220, 370, 380, 20, (144, 198, 124)))
+walls.append(Wall(530, 370, 20, 110, (144, 198, 124)))
+#walls.append(Wall(, , , , (144, 198, 124)))
+
 background = transform.scale(image.load("backgroundmaze.jpg"), DISPLAY_SIZE)
 player = Player("ukraine.png", 100, 350, 3)
 monster = Enemy(("russia.png"), 500, 70, 2)
@@ -65,12 +97,17 @@ while game:
         if e.type == QUIT:
                 game = False
 
+
+
     window.blit(background, (0, 0))
     player.reset()
     player.update()
     monster.reset()
     monster.update()
     final.reset()
+
+    for wall in walls:
+        wall.draw()
 
     display.update()
     clock.tick(FPS)
